@@ -30,8 +30,7 @@ app.appendChild(table);
 console.log(randomNumber);
 
 function updateGuessesHeader() {
-  guessesHeader.innerHTML =
-    "<h2>Guesses Left: " + (maxAttempts - attempts) + "</h2>";
+  guessesHeader.innerHTML = "Guesses Left: " + (maxAttempts - attempts) + "";
 }
 setTimeout(() => {
   do {
@@ -43,43 +42,31 @@ setTimeout(() => {
     } else {
       if (guess === randomNumber) {
         alert(
-          `Congratulations! You guessed the number in ${attempts} attempts.`
+          "Congratulations! You guessed the number in " +
+            attempts +
+            " attempts."
         );
         break;
       } else if (guess < randomNumber) {
-        table.querySelectorAll("tr > td").forEach((el) => {
-            if (el.textContent <= guess) {
-              el.style.backgroundColor = "red";
-              console.log(el.textContent);
-            }
-          });
+        Array.from(table.querySelectorAll("tr > td")).forEach((el) => {
+          if (parseInt(el.textContent) <= guess) {
+            el.style.backgroundColor = "red";
+          }
+        });
         alert("Too low. Try again.");
-        // table.querySelectorAll("tr > td").forEach((el) => {
-        //   if (el.textContent <= guess) {
-        //     console.log(el.textContent);
-        //   }
-        //   //console.log(el.textContent);
-        // });
-
-        // const table = document.querySelector("table");
-        // const rows = Array.from(table.rows);
-        // const element = rows.find((row) => {
-        //   console.log(row.querySelectorAll("td").textContent, guess);
-
-        //   return row.querySelector("td").textContent == guess;
-        // });
-        // element.querySelector("td").style.backgroundColor = "red";
       } else {
-        table.querySelectorAll("tr > td").forEach((el) => {
-            if (el.textContent >= guess) {
-              el.style.backgroundColor = "red";
-              console.log(el.textContent);
-            }
-          });
+        // Paint all cells greater than or equal to the guess in red
+        Array.from(table.querySelectorAll("tr > td")).forEach((el) => {
+          if (parseInt(el.textContent) >= guess) {
+            el.style.backgroundColor = "red";
+          }
+        });
         alert("Too high. Try again.");
-
       }
       updateGuessesHeader();
     }
   } while (attempts < maxAttempts);
+  if (attempts === maxAttempts) {
+    alert(`Game over! The number was ${randomNumber}`);
+  }
 }, 3000);
